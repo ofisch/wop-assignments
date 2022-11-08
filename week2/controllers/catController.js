@@ -51,7 +51,7 @@ const cat_update_put = async (req, res) => {
   const result = await updateCat(data);
   if (result.affectedRows > 0) {
     res.json({
-      message: 'cat updated',
+      message: 'cat modified',
       cat_id: result.insertId,
     });
   } else {
@@ -59,20 +59,14 @@ const cat_update_put = async (req, res) => {
   }
 };
 
-const cat_delete = async(req, res) => {
-  console.log('cat_delete', req.body);
-  const data = [
-    req.body.id,
-  ];
-
-  const result = await deleteCat(data);
-  if (result.affectedRows > 0) {
+const cat_delete = async (req, res) => {
+  const result = await deleteCat(req.params.id);
+  if(result.affectedRows > 0) {
     res.json({
       message: 'cat deleted',
-      cat_id: result.insertId,
     });
   } else {
-    res.send('virhe');
+    res.send('virhe')
   }
 }
 
