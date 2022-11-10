@@ -1,6 +1,8 @@
 'use strict';
 // userController
 const {getUser, getAllUsers, addUser} = require('../models/userModel');
+const {validationResult} = require('express-validator');
+const {httpError} = require('../utils/errors');
 
 const user_list_get = async (req, res) => {
   res.json(await getAllUsers());
@@ -16,8 +18,18 @@ const user_post = async (req, res) => {
   res.send('Add user route');
 };
 
-const user_create_post = async (req, res) => {
-  console.log('user_create_post', req.body);
+const user_create_post = async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      // There are errors.
+      // Error messages can be returned in an array using `errors.array()`.
+      console.error('user_create_post validation', errors.array());
+      next(httpError('invalid data', 400));
+      return;
+    }
+
   const data = [
     req.body.name,
     req.body.email,

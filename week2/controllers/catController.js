@@ -39,7 +39,17 @@ const cat_post = async (req, res) => {
 };
 
 const cat_update_put = async (req, res) => {
-  console.log('cat_update_put', req.body);
+   // Extract the validation errors from a request.
+   const errors = validationResult(req);
+
+   if (!errors.isEmpty()) {
+     // There are errors.
+     // Error messages can be returned in an array using `errors.array()`.
+     console.error('user_create_post validation', errors.array());
+     next(httpError('invalid data', 400));
+     return;
+   }
+  
   const data = [
     req.body.name,
     req.body.birthdate,
