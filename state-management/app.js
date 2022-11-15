@@ -2,7 +2,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const passport = require('./utils/pass');
+const passport = require('./utils/pass.js');
 const app = express();
 const port = 3000;
 
@@ -49,8 +49,9 @@ app.post('/login',
     });
 
 app.get('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/');
+  req.logout(() => {
+    res.redirect('/');
+  })
 });
 
 app.get('/setCookie/:clr', (req, res) => {
