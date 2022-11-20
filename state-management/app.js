@@ -2,7 +2,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const passport = require('./utils/pass.js');
+const passport = require('./utils/pass');
 const app = express();
 const port = 3000;
 
@@ -15,13 +15,13 @@ const loggedIn = (req, res, next) => {
 };
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 const username = 'foo';
 const password = 'bar';
 
 app.use(cookieParser());
-app.use(session({ secret: 'gdsfhgxnhmc', cookie: { maxAge: 60000 } }));
+app.use(session({secret: 'gdsfhgxnhmc', cookie: {maxAge: 60000}}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -51,7 +51,7 @@ app.post('/login',
 app.get('/logout', (req, res) => {
   req.logout(() => {
     res.redirect('/');
-  })
+  });
 });
 
 app.get('/setCookie/:clr', (req, res) => {

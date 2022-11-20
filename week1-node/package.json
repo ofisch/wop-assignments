@@ -10,7 +10,7 @@
     "start": "nodemon script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Onni",
+  "author": "ILE",
   "license": "ISC",
   "description": ""
 }

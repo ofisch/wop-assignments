@@ -1,8 +1,8 @@
-const lodash = require('lodash');
+const lodash = require('lodash')
 
-console.log("Moi testi");
+console.log('Moro si');
 
-const a = "Foo Bar";
+const a = 'Foo Bar';  // fooBar
 const b = lodash.camelCase(a);
 
 console.log(b);

@@ -51,7 +51,7 @@ const cat_post = async (req, res, next) => {
       req.body.name,
       req.body.birthdate,
       req.body.weight,
-      req.body.owner,
+      req.user.user_id,
       req.file.filename,
     ];
 
@@ -83,15 +83,29 @@ const cat_put = async (req, res, next) => {
       return;
     }
 
-    const data = [
-      req.body.name,
-      req.body.birthdate,
-      req.body.weight,
-      req.body.owner,
-      req.body.id,
-    ];
+    let data = [];
 
-    const result = await updateCat(data, next);
+    if (req.user.role === 0) {
+      data = [
+        req.body.name,
+        req.body.birthdate,
+        req.body.weight,
+        req.body.owner,
+        req.body.id,
+      ];
+    } else {
+      data = [
+        req.body.name,
+        req.body.birthdate,
+        req.body.weight,
+        req.body.id,
+        req.user.user_id,
+      ];
+    }
+
+    console.log('cat_put', data);
+
+    const result = await updateCat(data, req.user, next);
     if (result.affectedRows < 1) {
       next(httpError('No cat modified', 400));
       return;
@@ -108,7 +122,7 @@ const cat_put = async (req, res, next) => {
 
 const cat_delete = async (req, res, next) => {
   try {
-    const result = await deleteCat(req.params.id, next);
+    const result = await deleteCat(req.params.id, req.user, next);
     if (result.affectedRows < 1) {
       next(httpError('No cat deleted', 400));
       return;
