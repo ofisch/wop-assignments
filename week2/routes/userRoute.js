@@ -7,10 +7,6 @@ const router = express.Router();
 
 router.route('/').
     get(user_list_get).
-    post(body('name').isLength({min: 3}).escape(),
-        body('email').isEmail(),
-        body('passwd').matches(/(?=.*\p{Lu}).{8,}/u),
-        user_post).
     put(user_put);
 
 router.get('/token', check_token);

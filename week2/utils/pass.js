@@ -1,8 +1,8 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const {getUserLogin} = require('../models/userModel');
-const bcryptJs = require('bcryptjs');
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -17,9 +17,9 @@ passport.use(new Strategy(
         if (user === undefined) {
           return done(null, false, {message: 'Incorrect email.'});
         }
-        if (!bcryptJs.compareSync(password, user.password)) {
+        if (!bcrypt.compareSync(password, user.password)) {
           return done(null, false, {message: 'Incorrect password.'});
-        };      
+        }
         delete user.password;
         return done(null, {...user}, {message: 'Logged In Successfully'}); // use spread syntax to create shallow copy to get rid of binary row type
       } catch (err) {
